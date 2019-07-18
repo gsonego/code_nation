@@ -1,49 +1,23 @@
 ﻿using System;
 
-namespace code_nation
+namespace CodeNation
 {
-    class Program
+    public class Program
     {
-        const string Alfabeto = "abcdefghijklmnopqrstuvwxyz"; 
-
         static void Main(string[] args)
         {
-            //string textoDecifrado = "gkvusxq yx gkdob kxn nofovyzsxq cypdgkbo pbyw k czomspsmkdsyx kbo okci sp lydr kbo pbyjox. ongkbn f lobkbn";
-            string textoDecifrado = "walking on water and developing software from a specification are easy if both are frozen. edward v berard";
-            Console.WriteLine(textoDecifrado);
+            CodeNationResult dados = CodeNationService.ConsultarDesafio().Result;
 
-            string textoCifrado = Cifrar(10, textoDecifrado);
-            Console.WriteLine(textoCifrado);
+            Console.WriteLine($"casas: {dados.NumeroCasas}");
+            Console.WriteLine($"token: {dados.Token}");
+            Console.WriteLine($"cifrado: {dados.Cifrado}");
 
-            // textoDecifrado = Decifrar(10, textoCifrado);
-            // Console.WriteLine(textoDecifrado);
+            // decifra texto
+            dados.Decifrado = Criptografia.Decifrar(dados.NumeroCasas, dados.Cifrado);
+            Console.WriteLine($"decifrado: {dados.Decifrado}");
+
+            // calcula resumo
+            Console.WriteLine($"resumo: {dados.ResumoCriptografico}");
         }
-
-        static string Cifrar(int casas, string texto){
-            string result = string.Empty;
-
-            foreach(var letra in texto){
-                int pos = Alfabeto.IndexOf(letra);
-
-                // caractere não localizado no alfabeto
-                if (pos < 0){
-                    result += letra;
-                    continue;
-                }
-
-                // desloca a posição da letra
-                pos += casas;
-
-                if (pos >= Alfabeto.Length){
-                    pos -= Alfabeto.Length;
-                }
-
-                char novaLetra = Alfabeto[pos];
-
-                result += novaLetra;
-            }
-
-            return result;
-        }      
     }
 }
