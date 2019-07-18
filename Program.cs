@@ -17,6 +17,7 @@ namespace CodeNation
             Console.WriteLine($"decifrado: {dados.Decifrado}");
 
             // calcula resumo
+            dados.ResumoCriptografico = Criptografia.GerarHashSha1(dados.Decifrado);
             Console.WriteLine($"resumo: {dados.ResumoCriptografico}");
         }
     }

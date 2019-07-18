@@ -1,3 +1,7 @@
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+
 namespace CodeNation
 {
     public class Criptografia
@@ -31,6 +35,30 @@ namespace CodeNation
                 char novaLetra = Alfabeto[pos];
 
                 result += novaLetra;
+            }
+
+            return result;
+        }
+
+        private static string GenerateHashString(HashAlgorithm algo, string text)
+        {
+            // Compute hash from text parameter
+            algo.ComputeHash(Encoding.UTF8.GetBytes(text));
+
+            // Get has value in array of bytes
+            var result = algo.Hash;
+
+            // Return as hexadecimal string
+            return string.Join(string.Empty, result.Select(x => x.ToString("x2")));
+        }
+        
+        public static string GerarHashSha1(string text)
+        {
+            var result = default(string);
+
+            using (var algo = new SHA1Managed())
+            {
+                result = GenerateHashString(algo, text);
             }
 
             return result;
