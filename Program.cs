@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace CodeNation
 {
@@ -19,6 +21,15 @@ namespace CodeNation
             // calcula resumo
             dados.ResumoCriptografico = Criptografia.GerarHashSha1(dados.Decifrado);
             Console.WriteLine($"resumo: {dados.ResumoCriptografico}");
+
+            // salva as alterações no arquivo
+            var serializer = new DataContractJsonSerializer(typeof(CodeNationResult));  
+            var fileStream = new FileStream(@"C:\Temp\answer.json", FileMode.Open); 
+            serializer.WriteObject(fileStream, dados);  
+            fileStream.Close();
+
+            // publicando arquivo
+            CodeNationService.EnviarArquivo();
         }
     }
 }
